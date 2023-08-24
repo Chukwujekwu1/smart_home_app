@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_home_app/util/smart_device_box.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -7,10 +8,21 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-final double horizontal = 40.0;
-final double vertical = 25;
-
 class _HomePageState extends State<HomePage> {
+// padding  constant
+  final double horizontal = 40.0;
+  final double vertical = 25;
+  List mySmartDevices = [
+    ['Smart Light', "images/light-bulb.png", true],
+    ['Smart AC', "images/air-conditioner.png", false],
+    ['Smart TV', "images/smart-tv.png", false],
+    ['Smart Fan', "images/fan.png", false],
+  ];
+  void powerSwitchChanged(bool value,int index){
+    setState(() {
+     mySmartDevices[index][2] = value;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,11 +75,33 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
+            // smart devices + grid
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontal,
+                vertical: vertical,
+              ),
+              child: const Text('Smart Devices'),
+            ),
 
-          // smart devices + grid
-
-
-
+            Expanded(
+              child: GridView.builder(
+                padding: EdgeInsets.all(25),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1 / 1.3,
+                ),
+                itemCount: mySmartDevices.length,
+                itemBuilder: (context, index) {
+                  return SmartDeviceBox(
+                    smartDeviceName: mySmartDevices[index][0],
+                    iconPath: mySmartDevices[index][1],
+                    powerOn: mySmartDevices[index][2],
+                    onChanged:(value) => powerSwitchChanged(value),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
