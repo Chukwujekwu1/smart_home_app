@@ -13,16 +13,17 @@ class _HomePageState extends State<HomePage> {
   final double horizontal = 40.0;
   final double vertical = 25;
   List mySmartDevices = [
-    ['Smart Light', "images/light-bulb.png", true],
+    ['Smart Light', "images/light-bulb.png", false],
     ['Smart AC', "images/air-conditioner.png", false],
     ['Smart TV', "images/smart-tv.png", false],
     ['Smart Fan', "images/fan.png", false],
   ];
-  void powerSwitchChanged(bool value,int index){
+  void powerSwitchChanged(bool value, int index) {
     setState(() {
-     mySmartDevices[index][2] = value;
+      mySmartDevices[index][2] = value;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,38 +56,61 @@ class _HomePageState extends State<HomePage> {
             ),
             //! welcome home MITCH KOKO
 
-            const SizedBox(height: 20),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: horizontal,
-                vertical: vertical,
               ),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Welcome Home'),
+                  const Text('Welcome Home'),
                   Text(
                     'MITCH KOKO',
                     style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 72,
+                      // fontFamily: beb,
+                      fontFamily: "beb",
+                      color: Colors.grey[700],
                     ),
                   ),
                 ],
               ),
             ),
+          const  SizedBox(
+              height: 25,
+            ),
 
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontal,
+              ),
+              child: const Divider(
+                color: Colors.black,
+                thickness: 1,
+              ),
+            ),
+           const SizedBox(
+              height: 25,
+            ),
             // smart devices + grid
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: horizontal,
-                vertical: vertical,
               ),
-              child: const Text('Smart Devices'),
+              child: Text(
+                'Smart Devices',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Colors.grey[800],
+                ),
+              ),
             ),
 
             Expanded(
               child: GridView.builder(
-                padding: EdgeInsets.all(25),
+                padding: const EdgeInsets.all(25),
+                physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 1 / 1.3,
@@ -97,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                     smartDeviceName: mySmartDevices[index][0],
                     iconPath: mySmartDevices[index][1],
                     powerOn: mySmartDevices[index][2],
-                    onChanged:(value) => powerSwitchChanged(value),
+                    onChanged: (value) => powerSwitchChanged(value, index),
                   );
                 },
               ),
